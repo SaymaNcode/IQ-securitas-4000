@@ -6,7 +6,7 @@
 
 ###
 
-<h2 align="left">💎Vychytávky</h2>
+<h2 align="left">💎Vychytávky:</h2>
 
 ###
 
