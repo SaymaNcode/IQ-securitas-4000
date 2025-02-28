@@ -73,10 +73,13 @@ $conn->close();
             <h1>IQ Securitas 400</h1>
         </div>
         <div id="top_logout">
-        <button type="submit" name="logout" class="button-logout">
+        <form method="post" class="action-form">
+            <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
+            <button type="submit" name="logout" class="button-logout">
                 <b class="icon">🔒</b>
                 Odhlásiť sa
             </button>
+        </form>
         </div>
     </header>
     <nav id="main-nav">
@@ -95,10 +98,6 @@ $conn->close();
             <button type="submit" name="toggle_alarm" class="<?php echo $alarm_status ? 'button-red' : 'button-green'; ?>">
                 <b class="icon"><?php echo $alarm_status ? '🚫' : '✅'; ?></>
                 <?php echo $alarm_status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
-            </button>
-            <button type="submit" name="logout" class="button-logout">
-                <b class="icon">🔒</b>
-                Odhlásiť sa
             </button>
         </form>
         <div id="logs">
