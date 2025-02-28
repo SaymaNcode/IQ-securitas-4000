@@ -43,7 +43,7 @@ $logs_pohyb = [];
 while ($row = $result->fetch_assoc()) {
     if (strpos($row['message'], 'dvere') !== false) {
         $logs_dvere[] = $row;
-    } elseif (strpos($row['message'], 'okna') !== false) {
+    } elseif (strpos($row['message'], 'okno') !== false) {
         $logs_okna[] = $row;
     } elseif (strpos($row['message'], 'pohyb') !== false) {
         $logs_pohyb[] = $row;
