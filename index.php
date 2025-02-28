@@ -53,6 +53,7 @@ while ($row = $result->fetch_assoc()) {
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -66,20 +67,22 @@ $conn->close();
 </head>
 <body>
     <header id="main-header">
-        <div class="Logo">
-            <!--<img src="" alt="Logo">-->
-        </div>
-        <div class="container">
-            <h1>IQ Securitas 400</h1>
-        </div>
-        <div id="top_logout">
-        <form method="post" class="action-form">
-            <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
-            <button type="submit" name="logout" class="button-logout">
-                <b class="icon">🔒</b>
-                Odhlásiť sa
-            </button>
-        </form>
+        <div class="header-content">
+            <div class="Logo">
+                <!--<img src="" alt="Logo">-->
+            </div>
+            <div>
+                <h1>IQ Securitas 400</h1>
+            </div>
+            <div id="top_logout">
+                <form method="post" class="action-form">
+                    <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
+                    <button type="submit" name="logout" class="button-logout">
+                        <b class="icon">🔒</b>
+                        Odhlásiť sa
+                    </button>
+                </form>
+            </div>
         </div>
     </header>
     <nav id="main-nav">
@@ -97,7 +100,6 @@ $conn->close();
             <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
             <button type="submit" name="toggle_alarm" class="<?php echo $alarm_status ? 'button-red' : 'button-green'; ?>">
                 <b class="icon"><?php echo $alarm_status ? '🚫' : '✅'; ?></>
-                <?php echo $alarm_status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
             </button>
         </form>
         <div id="logs">
@@ -129,6 +131,7 @@ $conn->close();
             </div>
         </div>
     </div>
-    <script src="scripts.js"></script>
+
 </body>
 </html>
+

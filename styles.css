@@ -7,17 +7,27 @@ body {
     padding: 0;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
 
 #main-header {
     background-color: #609966;
     color: #333;
-    padding-top: 30px;
+    padding: 10px  20px;
     min-height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main-header .header-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+#main-header .header-content > div {
+    margin: 0 20px;
 }
 
 #main-header h1 {
@@ -25,6 +35,65 @@ body {
     text-transform: uppercase;
     margin: 0;
     font-size: 24px;
+}
+
+#top_logout{
+    text-align: right;
+    margin-right: 20px;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #609966;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 100px;
+}
+
+nav ul { 
+    margin: 0;
+    padding: 0; 
+    list-style: none; 
+    justify-content: center;
+    display: flex;
+    width: auto;
+    text-align: center;
+}
+
+nav li { 
+    display: inline-block; 
+    position: relative; 
+    padding: 5px 15px;
+}
+
+nav ul li a {
+    color: #333;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    display: inline-block;
+    padding: 10px 15px;
+    position: relative;
+}
+
+nav ul li a:after {    
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #9DC08B;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+
+nav ul li a:hover:after { 
+    width: 100%; 
+    left: 0; 
 }
 
 #logs {
@@ -95,8 +164,7 @@ input[type="submit"], button[type="submit"] {
     align-items: center;
 }
 
-.login-container input[type="password"],
-.login-container input[type="submit"] {
+.login-container input[type="password"],.login-container input[type="submit"] {
     display: block;
     width: 100%;
     margin: 10px 0;
