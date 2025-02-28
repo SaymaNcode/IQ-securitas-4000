@@ -58,15 +58,37 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
     <title>Bezpečnostný systém</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header id="main-header">
+        <div class="Logo">
+            <!--<img src="" alt="Logo">-->
+        </div>
         <div class="container">
-            <h1>Bezpečnostný systém</h1>
+            <h1>IQ Securitas 400</h1>
+        </div>
+        <div id="top_logout">
+        <button type="submit" name="logout" class="button-logout">
+                <b class="icon">🔒</b>
+                Odhlásiť sa
+            </button>
         </div>
     </header>
+    <nav id="main-nav">
+        <div class="nav_container">
+            <ul>
+                <li><a href="index.php">Domov</a></li>
+                <li><a href="#">Dvere</a></li>
+                <li><a href="#">Okna</li>
+                <li><a href="#">Senzor</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <form method="post" class="action-form">
             <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
