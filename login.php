@@ -27,17 +27,5 @@ if (isset($_POST['password']) && $_POST['password'] === 'tvojeheslo') {
             </form>
         </div>
     </div>
-
-
-        <div class="login-box">
-            <h2>Login</h2>
-            <form method="post" class="login-form">
-                <div class="textbox">
-                    <input type="password" name="password" placeholder="Heslo" required>
-                </div>
-                <button type="submit" value="Prihlásiť sa">Login</button>
-            </form>
-        </div>
-    </div>
 </body>
 </html>
