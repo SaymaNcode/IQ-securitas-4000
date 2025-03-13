@@ -14,7 +14,7 @@ if (isset($_POST['password']) && $_POST['password'] === 'tvojeheslo') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prihlásenie</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="log-style.css">
 </head>
 <body>
     <div class="glass-cont">
