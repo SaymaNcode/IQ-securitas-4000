@@ -18,7 +18,8 @@ if (isset($_POST['password']) && $_POST['password'] === 'tvojeheslo') {
 </head>
 <body>
     <div class="glass-cont">
-    <h2>Login</h2>
+        <div class="login-container">
+            <h2>Login</h2>
             <form method="post" class="login-form">
                 <div class="textbox">
                     <input type="password" name="password" placeholder="Heslo" required>

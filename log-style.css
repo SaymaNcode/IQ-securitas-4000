@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(green_bg.jpg);
+    background-size: cover;
+}
+
+.glass-cont{
+    width: 300px;
+    height: 200px;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid #fff;
+}
+
+.glass-cont:before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+.login-container{
+    max-width: 250px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h2{
+    color: black;
+    margin-top: 30px;
+    margin-bottom: -20px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+input{
+    padding: 10px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: black;
+    font-size: 13px;
+    outline: 1px solid white;
+}
+
+input::placeholder{
+    color: rgb(89, 85, 85);
+}   
+
+input:focus{
+    outline: 1px solid white;  
+}
+
+button{
+    background: #fff;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover{
+    background: transparent;
+    color: white;
+    outline: 1px solid white;
+}
