@@ -69,7 +69,7 @@ $conn->close();
     <header id="main-header">
         <div class="header-content">
             <div class="Logo">
-                <img src="iq_securitas_logo.svg" alt="Logo" width="100px" height="80px">
+                <img src="securitas_images/iq_securitas_logo.svg" alt="Logo" width="100px" height="80px">
             </div>
             <div>
                 <h1>IQ Securitas 400</h1>
