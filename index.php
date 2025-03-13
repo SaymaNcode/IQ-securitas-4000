@@ -100,6 +100,7 @@ $conn->close();
             <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
             <button type="submit" name="toggle_alarm" class="<?php echo $alarm_status ? 'button-red' : 'button-green'; ?>">
                 <b class="icon"><?php echo $alarm_status ? '🚫' : '✅'; ?></>
+                <?php echo $alarm_status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
             </button>
         </form>
         <div id="logs">
