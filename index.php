@@ -69,7 +69,7 @@ $conn->close();
     <header id="main-header">
         <div class="header-content">
             <div class="Logo">
-                <!--<img src="" alt="Logo">-->
+                <img src="iq_securitas_logo.svg" alt="Logo" width="100px" height="80px">
             </div>
             <div>
                 <h1>IQ Securitas 400</h1>
@@ -89,9 +89,9 @@ $conn->close();
         <div class="nav_container">
             <ul>
                 <li><a href="index.php">Domov</a></li>
-                <li><a href="#">Dvere</a></li>
-                <li><a href="#">Okna</li>
-                <li><a href="#">Senzor</a></li>
+                <li><a href="door.php">Dvere</a></li>
+                <li><a href="windows.php">Okna</a></li>
+                <li><a href="senzor.php">Senzor</a></li>
             </ul>
         </div>
     </nav>
