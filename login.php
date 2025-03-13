@@ -17,11 +17,27 @@ if (isset($_POST['password']) && $_POST['password'] === 'tvojeheslo') {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="login-container">
-        <form method="post" class="login-form">
-            <input type="password" name="password" placeholder="Heslo" required />
-            <input type="submit" value="Prihlásiť sa" />
-        </form>
+    <div class="glass-cont">
+    <h2>Login</h2>
+            <form method="post" class="login-form">
+                <div class="textbox">
+                    <input type="password" name="password" placeholder="Heslo" required>
+                </div>
+                <button type="submit" value="Prihlásiť sa">Login</button>
+            </form>
+        </div>
+    </div>
+
+
+        <div class="login-box">
+            <h2>Login</h2>
+            <form method="post" class="login-form">
+                <div class="textbox">
+                    <input type="password" name="password" placeholder="Heslo" required>
+                </div>
+                <button type="submit" value="Prihlásiť sa">Login</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
