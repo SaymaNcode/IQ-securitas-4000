@@ -72,7 +72,7 @@ $conn->close();
                 <img src="securitas_images/iq_securitas_logo.svg" alt="Logo" width="100px" height="80px">
             </div>
             <div>
-                <h1>IQ Securitas 400</h1>
+                <h1>IQ Securitas 4000</h1>
             </div>
             <div id="top_logout">
                 <form method="post" class="action-form">
