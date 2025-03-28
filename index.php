@@ -88,7 +88,7 @@ $conn->close();
     <nav id="main-nav">
         <div class="nav_container">
             <ul>
-                <li><a href="index.php">Domov</a></li>
+                <li><a href="index.php">trnava</a></li>
                 <li><a href="door.php">Dvere</a></li>
                 <li><a href="windows.php">Okna</a></li>
                 <li><a href="senzor.php">Senzor</a></li>
