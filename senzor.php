@@ -11,9 +11,9 @@
     <div class="log-container">
         <?php foreach ($logs_pohyb as $log) : ?>
             <div class="log">
-                <strong><?php echo $log['timestamp']; ?></strong> - <?php echo $log['message']; ?>                    </div>
-            <?php endforeach; ?>
-        </div>
+                <strong><?php echo $log['timestamp']; ?></strong> - <?php echo $log['message']; ?>                    
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>
 </body>
