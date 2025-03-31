@@ -29,6 +29,12 @@ if (isset($_POST['toggle_alarm'])) {
     $conn->query($sql);  // Uloží nový stav alarmu
 }
 
+// Register presmerovanie
+if (isset($_POST['register'])) {
+    header("Location: register.php");
+    exit();
+}
+
 // Získať stav alarmu
 $sql = "SELECT alarm FROM system WHERE id=1";
 $result = $conn->query($sql);
@@ -83,6 +89,10 @@ $conn->close();
                         <b class="icon">🔒</b>
                         Odhlásiť sa
                     </button>
+                    <button type="submit" name="register" class="button-register">
+                        <b class="icon">🪪</b>
+                        Registrovať
+                    </button>
                 </form>
             </div>
         </div>
@@ -90,7 +100,6 @@ $conn->close();
     <nav id="main-nav">
         <div class="nav_container">
             <ul>
-                <li><a href="index.php">trnava</a></li>
                 <li><a href="door.php">Dvere</a></li>
                 <li><a href="windows.php">Okna</a></li>
                 <li><a href="senzor.php">Senzor</a></li>

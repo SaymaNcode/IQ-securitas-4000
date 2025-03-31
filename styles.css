@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta:700');
 body {
-    font-family: "Baskervville",Arial, serif,;
+    font-family: 'Mukta', sans-serif;
     font-weight: 400;
     font-style: normal;
     background-color: #f4f4f4;
@@ -137,6 +138,10 @@ button .icon {
 
 .button-red {
     background-color: #f44336; /* Red */
+}
+
+.button-logout {
+    background-color: #555; /* Dark gray */
 }
 
 .button-logout {

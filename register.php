@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="password" name="password_confirm" placeholder="Potvrďte heslo" required>
         <button type="submit" class="register-button">Registrovať sa</button>
     </form>
-    <p>Už máte účet? <a href="login.php">Prihlásiť sa</a></p>
+    <p>Hladáte hlavnú stránku? <a href="index.php">Kliknite sem</a></p>
 </div>
 
 </body>
