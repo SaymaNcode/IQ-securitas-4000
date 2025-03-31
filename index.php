@@ -1,39 +1,41 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
-    header('Location: login.php');
-    exit;
-}
+// Skontroluj, či je pripojenie k databáze
+$conn = new mysqli('localhost', 'root', '', 'bezpecnost');
 
-if (isset($_POST['logout'])) {
-    unset($_SESSION['loggedin']);
-    header('Location: login.php');
-    exit;
-}
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bezpecnost";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
+// Over, či sa pripojenie podarilo
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Pripojenie zlyhalo: " . $conn->connect_error);
 }
 
+// Kontrola prihlásenia
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit();
+}
+
+// Odhlásenie
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header('Location: login.php');
+    exit();
+}
+
+// Práca s alarmom
 if (isset($_POST['toggle_alarm'])) {
-    $alarm_status = $_POST['alarm_status'];
-    $sql = "UPDATE system SET alarm='$alarm_status' WHERE id=1";
-    $conn->query($sql);
+    $new_alarm_status = $_POST['alarm_status'] == '1' ? 0 : 1;  // Prepnúť alarm
+    $sql = "UPDATE system SET alarm = $new_alarm_status WHERE id = 1";
+    $conn->query($sql);  // Uloží nový stav alarmu
 }
 
+// Získať stav alarmu
 $sql = "SELECT alarm FROM system WHERE id=1";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $alarm_status = $row['alarm'];
 
+// Získať logy
 $sql = "SELECT * FROM logs ORDER BY timestamp DESC LIMIT 10";
 $result = $conn->query($sql);
 

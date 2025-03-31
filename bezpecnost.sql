@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hostiteľ: 127.0.0.1
--- Čas generovania: Pi 28.Feb 2025, 08:54
+-- Čas generovania: Po 31.Mar 2025, 17:32
 -- Verzia serveru: 10.4.32-MariaDB
 -- Verzia PHP: 8.2.12
 
@@ -75,6 +75,27 @@ CREATE TABLE `system` (
 INSERT INTO `system` (`id`, `alarm`) VALUES
 (1, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Štruktúra tabuľky pre tabuľku `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `fullname` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Sťahujem dáta pre tabuľku `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `fullname`) VALUES
+(2, 'humajadam', '$2y$10$Efm1Mp5LRz61ekDwG0j2WezkmCBljjuo072Q9yvypHQQFDHWsov.O', ''),
+(3, 'laukosimon', '$2y$10$i4Sg9ef4692l2F3M5RRJv.W6NQHc5QSltz1n9kQtwdHtSktlfGpMm', '');
+
 --
 -- Kľúče pre exportované tabuľky
 --
@@ -92,6 +113,13 @@ ALTER TABLE `system`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexy pre tabuľku `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT pre exportované tabuľky
 --
 
@@ -106,6 +134,12 @@ ALTER TABLE `logs`
 --
 ALTER TABLE `system`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pre tabuľku `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
