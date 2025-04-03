@@ -1,153 +1,173 @@
 @import url('https://fonts.googleapis.com/css?family=Mukta:700');
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Mukta', sans-serif;
-    font-weight: 400;
-    font-style: normal;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
 
-
-#main-header {
-    background-color: #609966;
-    color: #333;
-    padding: 10px  20px;
-    min-height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#main-header .header-content{
+/* Header štýly */
+header {
+    background-color: #39753b;
+    padding: 10px 20px;
+    color: #fff;
+    position: relative;
+  }
+  
+  .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 100%;
-}
-
-#main-header .header-content > div {
-    margin: 0 20px;
-}
-
-#main-header h1 {
-    text-align: center;
-    text-transform: uppercase;
-    margin: 0;
-    font-size: 24px;
-}
-
-#top_logout{
-    text-align: right;
-    margin-right: 20px;
-}
-
-.main-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #609966;
-    padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    height: 100px;
-}
-
-nav ul { 
-    margin: 0;
-    padding: 0; 
-    list-style: none; 
-    justify-content: center;
-    display: flex;
-    width: auto;
-    text-align: center;
-}
-
-nav li { 
-    display: inline-block; 
-    position: relative; 
-    padding: 5px 15px;
-}
-
-nav ul li a {
-    color: #333;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 0.15em;
-    display: inline-block;
-    padding: 10px 15px;
+  }
+  
+  /* Menu ikona */
+  .menu {
     position: relative;
-}
+  }
 
-nav ul li a:after {    
-    background: none repeat scroll 0 0 transparent;
-    bottom: 0;
-    content: "";
-    display: block;
-    height: 2px;
-    left: 50%;
-    position: absolute;
-    background: #9DC08B;
-    transition: width 0.3s ease 0s, left 0.3s ease 0s;
-    width: 0;
-}
-
-nav ul li a:hover:after { 
-    width: 100%; 
-    left: 0; 
-}
-
-#logs {
-    margin: 20px 0;
-    background: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-}
-
-.log {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.log:last-child {
-    border-bottom: none;
-}
-
-.log-container {
-    max-height: 200px; /* Limit the height of log containers */
-    overflow-y: auto; /* Enable vertical scrolling */
-}
-
-button {
-    background-color: #4CAF50; /* Green */
-    color: white;
+#menu-button {
+    background: transparent;
     border: none;
-    padding: 10px 20px;
+    color: #fff;
+    font-size: 26px;
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
+  }
+  
+  /* Dropdown menu – počiatočné skrytie pomocou opacity, visibility a transform */
+  .dropdown {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+  
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  }
+  
+  /* Dropdown zobrazené – trieda "show" */
+  .dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  /* Dropdown položky */
+  .dropdown p,
+  .dropdown a,
+  .dropdown button {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 8px 10px;
+    font-size: 14px;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .dropdown a:hover,
+  .dropdown button:hover,
+  .dropdown p:hover {
+    background-color: #f4f4f4;
+  }
+
+/* Main kontajner */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
-button .icon {
-    margin-right: 8px;
+.container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
 
-.button-green {
-    background-color: #4CAF50; /* Green */
+/* Ľavá ponuka */
+.left-panel {
+    flex: 1;
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.button-red {
-    background-color: #f44336; /* Red */
+.status-info p {
+    margin: 5px 0;
 }
 
-.button-logout {
-    background-color: #555; /* Dark gray */
+/* Tlačidlo pre prepínanie alarmu */
+.alarm-form {
+    margin: 0;
 }
 
-.button-logout {
-    background-color: #555; /* Dark gray */
+.toggle-alarm {
+    background-color: #ff5722;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-input[type="submit"], button[type="submit"] {
-    margin: 5px;
+.toggle-alarm:hover {
+    background-color: #e64a19;
+}
+
+/* Doplnkové info tlačidlo */
+.info-button {
+    background: #2196F3;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.info-button:hover {
+    background: #1976D2;
+}
+
+/* Pravá ponuka */
+.right-panel {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.log-box {
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.log-box:hover {
+    transform: translateY(-5px);
 }

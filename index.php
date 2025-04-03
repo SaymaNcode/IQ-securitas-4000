@@ -1,10 +1,8 @@
 <?php
 session_start();
 
-// Skontroluj, či je pripojenie k databáze
+// Pripojenie k databáze
 $conn = new mysqli('localhost', 'root', '', 'bezpecnost');
-
-// Over, či sa pripojenie podarilo
 if ($conn->connect_error) {
     die("Pripojenie zlyhalo: " . $conn->connect_error);
 }
@@ -22,128 +20,143 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
-// Práca s alarmom
+// Prepínanie alarmu – ak bolo stlačené tlačidlo
 if (isset($_POST['toggle_alarm'])) {
-    $new_alarm_status = $_POST['alarm_status'] == '1' ? 0 : 1;  // Prepnúť alarm
-    $sql = "UPDATE system SET alarm = $new_alarm_status WHERE id = 1";
-    $conn->query($sql);  // Uloží nový stav alarmu
-}
-
-// Register presmerovanie
-if (isset($_POST['register'])) {
-    header("Location: register.php");
-    exit();
-}
-
-// Získať stav alarmu
-$sql = "SELECT alarm FROM system WHERE id=1";
-$result = $conn->query($sql);
-$row = $result->fetch_assoc();
-$alarm_status = $row['alarm'];
-
-// Získať logy
-$sql = "SELECT * FROM logs ORDER BY timestamp DESC LIMIT 10";
-$result = $conn->query($sql);
-
-$logs_dvere = [];
-$logs_okna = [];
-$logs_pohyb = [];
-while ($row = $result->fetch_assoc()) {
-    if (strpos($row['message'], 'dvere') !== false) {
-        $logs_dvere[] = $row;
-    } elseif (strpos($row['message'], 'okno') !== false) {
-        $logs_okna[] = $row;
-    } elseif (strpos($row['message'], 'pohyb') !== false) {
-        $logs_pohyb[] = $row;
+    // Načítame aktuálny stav alarmu
+    $resultToggle = $conn->query("SELECT * FROM system_status ORDER BY timestamp DESC LIMIT 1");
+    $currentStatus = $resultToggle->fetch_assoc();
+    $newState = ($currentStatus && $currentStatus['alarm_on']) ? 0 : 1;
+    // Predpokladáme, že tabuľka system_status má primárny kľúč id
+    if (isset($currentStatus['id'])) {
+        $stmt = $conn->prepare("UPDATE system_status SET alarm_on = ? WHERE id = ?");
+        $stmt->bind_param("ii", $newState, $currentStatus['id']);
+        $stmt->execute();
+        $stmt->close();
     }
 }
 
-$conn->close();
-?>
+// Načítanie aktuálneho stavu systému
+$result = $conn->query("SELECT * FROM system_status ORDER BY timestamp DESC LIMIT 1");
+$status = $result->fetch_assoc() ?: ['alarm_on' => 0, 'status' => 'Neznámy', 'uptime' => '0s'];
 
+// Načítanie posledných logov pre jednotlivé senzory
+$logs = [
+    'senzor' => null,
+    'okna'   => null,
+    'dvere'  => null
+];
+
+foreach ($logs as $type => &$log) {
+    $resultLog = $conn->query("SELECT * FROM logs WHERE typ='$type' ORDER BY timestamp DESC LIMIT 1");
+    $log = $resultLog->fetch_assoc();
+}
+
+// Získanie hodnoty "fullname" pre prihláseného používateľa:
+// Používame hodnotu zo session, ktorú následne ošetrujeme pomocou real_escape_string.
+$username = $conn->real_escape_string($_SESSION['user']);
+$resultUser = $conn->query("SELECT fullname FROM users WHERE username = '$username' LIMIT 1");
+
+if ($resultUser && $resultUser->num_rows > 0) {
+    $rowUser = $resultUser->fetch_assoc();
+    $userFullName = $rowUser['fullname'];
+} else {
+    // Ak fullname nie je nájdený, použijeme pôvodné používateľské meno
+    $userFullName = $username;
+}
+
+// Teraz máš v premennej $userFullName hodnotu zo stĺpca fullname.
+// Môžeš ju následne použiť pre zobrazenie v HTML alebo na ďalšie spracovanie.
+?>
 
 <!DOCTYPE html>
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
-    <title>Bezpečnostný systém</title>
+    <title>Domáci bezpečnostný systém</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome pre ikony -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha512-pap6bEGC8tOac4R7k3QB3iT7/hTQbBRhd9qq0edYfXefmIjo3w+gBt/6M4ecbEjpd3UUlN5C6r72X3Q8a6V+5A==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <header id="main-header">
-        <div class="header-content">
-            <div class="Logo">
-                <img src="securitas_images/iq_securitas_logo.svg" alt="Logo" width="100px" height="80px">
-            </div>
-            <div>
-                <h1>IQ Securitas 4000</h1>
-            </div>
-            <div id="top_logout">
-                <form method="post" class="action-form">
-                    <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
-                    <button type="submit" name="logout" class="button-logout">
-                        <b class="icon">🔒</b>
-                        Odhlásiť sa
-                    </button>
-                    <button type="submit" name="register" class="button-register">
-                        <b class="icon">🪪</b>
-                        Registrovať
-                    </button>
-                </form>
-            </div>
+    <header>
+        <div class="header-container">
+            <h1>IQ Securitas 4000</h1>
+                <div class="menu">
+      <!-- Ikona, ktorá spúšťa zobrazenie dropdown menu -->
+      <button id="menu-button" onclick="toggleDropdown()">
+        <i class="fa fa-bars"></i>
+      </button>
+      <!-- Dropdown menu – počiatočne skryté -->
+      <div id="dropdown-menu" class="dropdown">
+        <p><i class="fa fa-user"></i> Prihlásený: <?= htmlspecialchars($userFullName); ?></p>
+        <a href="register.php"><i class="fa fa-user-plus"></i> Registrovať</a>
+        <form method="post" style="margin:0;">
+          <button type="submit" name="logout">
+            <i class="fa fa-sign-out-alt"></i> Odhlásiť sa
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
         </div>
     </header>
-    <nav id="main-nav">
-        <div class="nav_container">
-            <ul>
-                <li><a href="door.php">Dvere</a></li>
-                <li><a href="windows.php">Okna</a></li>
-                <li><a href="senzor.php">Senzor</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <form method="post" class="action-form">
-            <input type="hidden" name="alarm_status" value="<?php echo $alarm_status ? '0' : '1'; ?>" />
-            <button type="submit" name="toggle_alarm" class="<?php echo $alarm_status ? 'button-red' : 'button-green'; ?>">
-                <b class="icon"><?php echo $alarm_status ? '🚫' : '✅'; ?></>
-                <?php echo $alarm_status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
-            </button>
-        </form>
-        <div id="logs">
-            <h2>Logy z otvorenia dverí</h2>
-            <div class="log-container">
-                <?php foreach ($logs_dvere as $log) : ?>
-                    <div class="log">
-                        <strong><?php echo $log['timestamp']; ?></strong> - <?php echo $log['message']; ?>
-                    </div>
-                <?php endforeach; ?>
+    
+    <main>
+        <div class="container">
+            <div class="left-panel">
+                <h2>Vitaj, <?= htmlspecialchars($userFullName); ?>!</h2>
+                <div class="status-info">
+                    <p><strong>Alarm:</strong> <?= $status['alarm_on'] ? 'Zapnutý' : 'Vypnutý'; ?></p>
+                    <p><strong>Status:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                    <p><strong>Uptime:</strong> <?= htmlspecialchars($status['uptime']); ?></p>
+                </div>
+                <form method="post" class="alarm-form">
+                    <button type="submit" name="toggle_alarm" class="toggle-alarm">
+                        <?= $status['alarm_on'] ? '<i class="fa fa-power-off"></i> Vypnúť alarm' : '<i class="fa fa-power-off"></i> Zapnúť alarm'; ?>
+                    </button>
+                </form>
+                <!-- Príklad ďalšej funkcie -->
+                <button class="info-button"><i class="fa fa-info-circle"></i> Viac info</button>
             </div>
-
-            <h2>Logy z otvorenia okien</h2>
-            <div class="log-container">
-                <?php foreach ($logs_okna as $log) : ?>
-                    <div class="log">
-                        <strong><?php echo $log['timestamp']; ?></strong> - <?php echo $log['message']; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <h2>Logy z pohybového senzora</h2>
-            <div class="log-container">
-                <?php foreach ($logs_pohyb as $log) : ?>
-                    <div class="log">
-                        <strong><?php echo $log['timestamp']; ?></strong> - <?php echo $log['message']; ?>
-                    </div>
-                <?php endforeach; ?>
+            <div class="right-panel">
+                <div class="log-box" onclick="showHistory('senzor')">
+                    <h3><i class="fa fa-bell"></i> Detekcia zo senzora</h3>
+                    <p><?= $logs['senzor']['message'] ?? 'Žiadne záznamy'; ?></p>
+                </div>
+                <div class="log-box" onclick="showHistory('okna')">
+                    <h3><i class="fa fa-window-maximize"></i> Detekcia z okien</h3>
+                    <p><?= $logs['okna']['message'] ?? 'Žiadne záznamy'; ?></p>
+                </div>
+                <div class="log-box" onclick="showHistory('dvere')">
+                    <h3><i class="fa fa-door-closed"></i> Detekcia z dverí</h3>
+                    <p><?= $logs['dvere']['message'] ?? 'Žiadne záznamy'; ?></p>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+    
+    <!-- Inline JavaScript pre animáciu dropdown menu a prípadné ďalšie funkcie -->
+    <script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById("dropdown-menu");
+        dropdown.classList.toggle("show");
+    }
 
+    // Ak používateľ klikne mimo menu, dropdown sa skryje
+    document.addEventListener("click", function(e) {
+     const dropdown = document.getElementById("dropdown-menu");
+     const button = document.getElementById("menu-button");
+      if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.remove("show");
+     }
+    });
+        
+        // Dummy funkcia pre zobrazenie histórie logov – uprav podľa potreby
+        function showHistory(type) {
+            alert("Zobrazenie histórie pre: " + type);
+        }
+    </script>
 </body>
 </html>
-
