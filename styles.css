@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Mukta:700');
+@import url('https://fonts.googleapis.com/css?family=Mukta:400,700');
 
 * {
     box-sizing: border-box;
@@ -17,18 +17,33 @@ header {
     padding: 10px 20px;
     color: #fff;
     position: relative;
-  }
-  
-  .header-container {
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  /* Menu ikona */
-  .menu {
-    position: relative;
-  }
+}
+
+/* Logo */
+.logo img {
+    height: 40px;
+    /* Prípadne upraviť margin podľa potreby */
+    margin-right: 10px;
+}
+
+/* Header titulok */
+header h1 {
+    font-size: 24px;
+    margin: 0 20px;
+    font-weight: normal;
+    flex: 1;
+}
+
+/* Menu */
+.menu {
+    position: absolute;
+}
 
 #menu-button {
     background: transparent;
@@ -36,37 +51,36 @@ header {
     color: #fff;
     font-size: 26px;
     cursor: pointer;
-  }
-  
-  /* Dropdown menu – počiatočné skrytie pomocou opacity, visibility a transform */
-  .dropdown {
-    position: absolute;
-    right: 0;
-    top: 50px;
-    background-color: #fff;
-    color: #333;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-  
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-  }
-  
-  /* Dropdown zobrazené – trieda "show" */
-  .dropdown.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-  
-  /* Dropdown položky */
-  .dropdown p,
-  .dropdown a,
-  .dropdown button {
+}
+
+/* Dropdown menu s minimalistickou animáciou */
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  z-index: 1000;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-15px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown p,
+.dropdown a,
+.dropdown button {
     display: block;
     text-decoration: none;
     color: #333;
@@ -77,13 +91,14 @@ header {
     text-align: left;
     width: 100%;
     cursor: pointer;
-  }
-  
-  .dropdown a:hover,
-  .dropdown button:hover,
-  .dropdown p:hover {
+    transition: background-color 0.3s ease;
+}
+
+.dropdown a:hover,
+.dropdown button:hover,
+.dropdown p:hover {
     background-color: #f4f4f4;
-  }
+}
 
 /* Main kontajner */
 main {
@@ -111,11 +126,19 @@ main {
     gap: 15px;
 }
 
-.status-info p {
-    margin: 5px 0;
+.left-panel h2 {
+    font-size: 22px;
+    margin: 0;
+    font-weight: normal;
 }
 
-/* Tlačidlo pre prepínanie alarmu */
+/* Informácie o stave */
+.status-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* Prepínač alarmu */
 .alarm-form {
     margin: 0;
 }
@@ -135,7 +158,7 @@ main {
     background-color: #e64a19;
 }
 
-/* Doplnkové info tlačidlo */
+/* Info tlačidlo */
 .info-button {
     background: #2196F3;
     color: #fff;
@@ -170,4 +193,10 @@ main {
 
 .log-box:hover {
     transform: translateY(-5px);
+}
+
+.log-box h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    font-weight: normal;
 }

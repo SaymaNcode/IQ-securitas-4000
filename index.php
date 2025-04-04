@@ -51,8 +51,7 @@ foreach ($logs as $type => &$log) {
     $log = $resultLog->fetch_assoc();
 }
 
-// Získanie hodnoty "fullname" pre prihláseného používateľa:
-// Používame hodnotu zo session, ktorú následne ošetrujeme pomocou real_escape_string.
+// Získanie hodnoty "fullname" pre prihláseného používateľa
 $username = $conn->real_escape_string($_SESSION['user']);
 $resultUser = $conn->query("SELECT fullname FROM users WHERE username = '$username' LIMIT 1");
 
@@ -60,12 +59,9 @@ if ($resultUser && $resultUser->num_rows > 0) {
     $rowUser = $resultUser->fetch_assoc();
     $userFullName = $rowUser['fullname'];
 } else {
-    // Ak fullname nie je nájdený, použijeme pôvodné používateľské meno
+    // Fallback – ak fullname nie je nájdený, použijeme pôvodné používateľské meno
     $userFullName = $username;
 }
-
-// Teraz máš v premennej $userFullName hodnotu zo stĺpca fullname.
-// Môžeš ju následne použiť pre zobrazenie v HTML alebo na ďalšie spracovanie.
 ?>
 
 <!DOCTYPE html>
@@ -82,42 +78,44 @@ if ($resultUser && $resultUser->num_rows > 0) {
 <body>
     <header>
         <div class="header-container">
+            <!-- Logo – upravte cestu k obrázku podľa potreby -->
+            <div class="logo">
+                <img src="securitas_images\iq_securitas_logo.svg" alt="Logo">
+            </div>
             <h1>IQ Securitas 4000</h1>
-                <div class="menu">
-      <!-- Ikona, ktorá spúšťa zobrazenie dropdown menu -->
-      <button id="menu-button" onclick="toggleDropdown()">
-        <i class="fa fa-bars"></i>
-      </button>
-      <!-- Dropdown menu – počiatočne skryté -->
-      <div id="dropdown-menu" class="dropdown">
-        <p><i class="fa fa-user"></i> Prihlásený: <?= htmlspecialchars($userFullName); ?></p>
-        <a href="register.php"><i class="fa fa-user-plus"></i> Registrovať</a>
-        <form method="post" style="margin:0;">
-          <button type="submit" name="logout">
-            <i class="fa fa-sign-out-alt"></i> Odhlásiť sa
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
+            <div class="menu">
+                <!-- Ikona, ktorá spúšťa zobrazenie dropdown menu -->
+                <button id="menu-button" onclick="toggleDropdown()">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <!-- Dropdown menu – počiatočne skryté -->
+                <div id="dropdown-menu" class="dropdown">
+                    <p><i class="fa fa-user"></i> Prihlásený: <?= htmlspecialchars($userFullName); ?></p>
+                    <a href="register.php"><i class="fa fa-user-plus"></i> Registrovať</a>
+                    <form method="post" style="margin:0;">
+                        <button type="submit" name="logout">
+                            <i class="fa fa-sign-out-alt"></i> Odhlásiť sa
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </header>
     
     <main>
         <div class="container">
             <div class="left-panel">
-                <h2>Vitaj, <?= htmlspecialchars($userFullName); ?>!</h2>
+                <h2><i class="fa fa-user-circle"></i> Vitaj, <?= htmlspecialchars($userFullName); ?>!</h2>
                 <div class="status-info">
-                    <p><strong>Alarm:</strong> <?= $status['alarm_on'] ? 'Zapnutý' : 'Vypnutý'; ?></p>
-                    <p><strong>Status:</strong> <?= htmlspecialchars($status['status']); ?></p>
-                    <p><strong>Uptime:</strong> <?= htmlspecialchars($status['uptime']); ?></p>
+                    <p><i class="fa fa-bell"></i> <strong>Alarm:</strong> <?= $status['alarm_on'] ? 'Zapnutý' : 'Vypnutý'; ?></p>
+                    <p><i class="fa fa-info-circle"></i> <strong>Status:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                    <p><i class="fa fa-clock"></i> <strong>Uptime:</strong> <?= htmlspecialchars($status['uptime']); ?></p>
                 </div>
                 <form method="post" class="alarm-form">
                     <button type="submit" name="toggle_alarm" class="toggle-alarm">
                         <?= $status['alarm_on'] ? '<i class="fa fa-power-off"></i> Vypnúť alarm' : '<i class="fa fa-power-off"></i> Zapnúť alarm'; ?>
                     </button>
                 </form>
-                <!-- Príklad ďalšej funkcie -->
                 <button class="info-button"><i class="fa fa-info-circle"></i> Viac info</button>
             </div>
             <div class="right-panel">
@@ -137,21 +135,21 @@ if ($resultUser && $resultUser->num_rows > 0) {
         </div>
     </main>
     
-    <!-- Inline JavaScript pre animáciu dropdown menu a prípadné ďalšie funkcie -->
+    <!-- Inline JavaScript pre animáciu dropdown menu a ďalšie funkcie -->
     <script>
-    function toggleDropdown() {
-        const dropdown = document.getElementById("dropdown-menu");
-        dropdown.classList.toggle("show");
-    }
-
-    // Ak používateľ klikne mimo menu, dropdown sa skryje
-    document.addEventListener("click", function(e) {
-     const dropdown = document.getElementById("dropdown-menu");
-     const button = document.getElementById("menu-button");
-      if (!button.contains(e.target) && !dropdown.contains(e.target)) {
-          dropdown.classList.remove("show");
-     }
-    });
+        function toggleDropdown() {
+            console.log("Toggle dropdown");
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.classList.toggle("show");
+        }
+        // Kliknutie mimo menu zatvorí dropdown
+        document.addEventListener("click", function(e) {
+            const dropdown = document.getElementById("dropdown-menu");
+            const button = document.getElementById("menu-button");
+            if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove("show");
+            }
+        });
         
         // Dummy funkcia pre zobrazenie histórie logov – uprav podľa potreby
         function showHistory(type) {

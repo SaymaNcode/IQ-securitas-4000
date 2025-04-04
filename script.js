@@ -50,10 +50,6 @@ $(document).ready(function() {
     setInterval(updateUptime, 1000);
 });
 
-function toggleMenu() {
-    let menu = document.getElementById("dropdown-menu");
-    menu.classList.toggle("hidden");
-}
 function showHistory(type) {
     alert("Zobrazenie histórie: " + type);
 }
