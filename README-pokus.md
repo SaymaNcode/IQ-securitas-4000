@@ -52,4 +52,4 @@
 Ak máš otázky alebo nápady, kľudne napíš na 
 [simonlauko02@gmail.com](mailto:simonlauko02@gmail.com) 
 alebo na
-[adamkosempridamail@pekneprosim.com](mailto:)
+[humajadam14@gmail.com](mailto:humajadam14@gmail.com)
