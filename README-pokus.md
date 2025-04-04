@@ -6,10 +6,10 @@
 
 ### 💎 Funkcie
 
-- ✅ Pohybový senzor  
-- ✅ Detekcia otvorených dverí/okien  
-- ✅ Zvukový alarm  
-- ✅ Webové rozhranie
+ ✅ Pohybový senzor  
+ ✅ Detekcia otvorených dverí/okien  
+ ✅ Zvukový alarm  
+ ✅ Webové rozhranie
 
 ---
 
@@ -33,17 +33,22 @@
 
 ### 🛠️ Ako to funguje
 
-    1. Pohybový senzor detekuje pohyb v miestnosti.
-    2. Magnetický senzor zisťuje, či sú dvere alebo okná otvorené.
-    3. Pri zistení narušenia systém spustí zvukový alarm.
-    4. Udalosti sa zobrazujú v prehľadnom webovom rozhraní.
+  - Pohybový senzor detekuje pohyb v miestnosti.
+  - Magnetický senzor zisťuje, či sú dvere alebo okná otvorené.
+  - Pri zistení narušenia systém spustí zvukový alarm.
+  - Udalosti sa zobrazujú v prehľadnom webovom rozhraní.
 
 ---
 
-### 📸 Ukážka (voliteľné)
+### 📸 Ukážka 
 
-
+---
 
 ### 📬 Kontakt
 
-Ak máš otázky alebo nápady, kľudne napíš na [simonlauko02@gmail.com](mailto:simonlauko02@gmail.com) alebo na [adamkosempridamail@pekneprosim.com](mailto:)
+---
+
+Ak máš otázky alebo nápady, kľudne napíš na 
+[simonlauko02@gmail.com](mailto:simonlauko02@gmail.com) 
+alebo na
+[adamkosempridamail@pekneprosim.com](mailto:)
