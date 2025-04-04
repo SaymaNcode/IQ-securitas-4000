@@ -6,10 +6,10 @@
 
 ### 💎 Funkcie
 
- ✅ Pohybový senzor  
- ✅ Detekcia otvorených dverí/okien  
- ✅ Zvukový alarm  
- ✅ Webové rozhranie
+ -✅ Pohybový senzor  
+ -✅ Detekcia otvorených dverí/okien  
+ -✅ Zvukový alarm  
+ -✅ Webové rozhranie
 
 ---
 
