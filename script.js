@@ -60,3 +60,4 @@ $(document).ready(function() {
 function showHistory(type) {
     alert("Zobrazenie histórie: " + type);
 }
+

@@ -62,6 +62,23 @@ if ($resultUser && $resultUser->num_rows > 0) {
     // Fallback – ak fullname nie je nájdený, použijeme pôvodné používateľské meno
     $userFullName = $username;
 }
+
+$senzorLog = null;
+$oknaLog = null;
+$dvereLog = null;
+
+foreach ($logs as $l) {
+    if (isset($l['typ']) && $l['typ'] === 'senzor' && $senzorLog === null) {
+        $senzorLog = $l;
+    }
+    if (isset($l['typ']) && $l['typ'] === 'okna' && $oknaLog === null) {
+        $oknaLog = $l;
+    }
+    if (isset($l['typ']) && $l['typ'] === 'dvere' && $dvereLog === null) {
+        $dvereLog = $l;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -70,16 +87,12 @@ if ($resultUser && $resultUser->num_rows > 0) {
     <meta charset="UTF-8">
     <title>Domáci bezpečnostný systém</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome pre ikony -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-          integrity="sha512-pap6bEGC8tOac4R7k3QB3iT7/hTQbBRhd9qq0edYfXefmIjo3w+gBt/6M4ecbEjpd3UUlN5C6r72X3Q8a6V+5A==" 
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
     <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
     <header>
         <div class="header-container">
-            <!-- Logo – upravte cestu k obrázku podľa potreby -->
             <div class="logo">
                 <img src="securitas_images\iq_securitas_logo.svg" alt="Logo">
             </div>
@@ -94,12 +107,12 @@ if ($resultUser && $resultUser->num_rows > 0) {
             <div class="dropdown-content">
                 <a href="#">Dvere</a>
                 <a href="#">Okná</a>
-                <a href="#">Pohybový senzor</a>
+                <a href="senzor.php">Pohybový senzor</a>
             </div>
         </div>
 
         <a href="register.php" class="ponuka">Registrovať</a>
-        <a type="submit" name="logout" class="ponuka">Odhlásiť sa</a>
+        <a type="post" name="logout" class="ponuka">Odhlásiť sa</a>
     </nav>
 
     <main>
@@ -119,43 +132,20 @@ if ($resultUser && $resultUser->num_rows > 0) {
                 <button class="info-button"><i class="fa fa-info-circle"></i> Viac info</button>
             </div>
             <div class="right-panel">
-                <div class="log-box" onclick="showHistory('senzor')">
-                    <h3><i class="fa fa-bell"></i> Detekcia zo senzora</h3>
-                    <p><?= $logs['senzor']['message'] ?? 'Žiadne záznamy'; ?></p>
+                <div class="log-box" onclick="window.location.href='senzor.php'">
+                    <h3 style="font-weight: bold;"><i class="fa fa-bell"></i> Posledná detekcia zo senzora</h3>
+                    <p><?= isset($senzorLog['message'], $senzorLog['timestamp']) ? "{$senzorLog['message']} o {$senzorLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
                 </div>
                 <div class="log-box" onclick="showHistory('okna')">
-                    <h3><i class="fa fa-window-maximize"></i> Detekcia z okien</h3>
-                    <p><?= $logs['okna']['message'] ?? 'Žiadne záznamy'; ?></p>
+                    <h3 style="font-weight: bold;"><i class="fa fa-window-maximize"></i> Posledná detekcia z okien</h3>
+                    <p><?= isset($oknaLog['message'], $oknaLog['timestamp']) ? "{$oknaLog['message']} o {$oknaLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
                 </div>
                 <div class="log-box" onclick="showHistory('dvere')">
-                    <h3><i class="fa fa-door-closed"></i> Detekcia z dverí</h3>
-                    <p><?= $logs['dvere']['message'] ?? 'Žiadne záznamy'; ?></p>
+                    <h3 style="font-weight: bold;"><i class="fa fa-door-closed"></i> Posledná detekcia z dverí</h3>
+                    <p><?= isset($dvereLog['message'], $dvereLog['timestamp']) ? "{$dvereLog['message']} o {$dvereLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
                 </div>
             </div>
         </div>
     </main>
-    
-    <!-- Inline JavaScript pre animáciu dropdown menu a ďalšie funkcie -->
-    <script>
-        
-        // Dummy funkcia pre zobrazenie histórie logov – uprav podľa potreby
-        function showHistory(type) {
-            alert("Zobrazenie histórie pre: " + type);
-        }
-  // Toggle dropdown on click
-  document.getElementById("dropdown-btn").addEventListener("click", function(e) {
-      e.stopPropagation(); // Zastaví bubblení pre kliknutia vnútri dropdown
-      document.getElementById("dropdown-content").classList.toggle("show");
-  });
-
-  // Kliknutím mimo dropdown sa menu zavrie
-  document.addEventListener("click", function(e) {
-      const dropdownContent = document.getElementById("dropdown-content");
-      if (dropdownContent.classList.contains("show")) {
-          dropdownContent.classList.remove("show");
-      }
-  });
-
-    </script>
 </body>
 </html>

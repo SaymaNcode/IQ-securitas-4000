@@ -1,62 +1,138 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bezpecnost";
+session_start();
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
+$conn = new mysqli('localhost', 'root', '', 'bezpecnost');
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Pripojenie zlyhalo: " . $conn->connect_error);
 }
 
-if (isset($_POST['toggle_alarm'])) {
-    $alarm_status = $_POST['alarm_status'];
-    $sql = "UPDATE system SET alarm='$alarm_status' WHERE id=1";
-    $conn->query($sql);
+if (!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit();
 }
 
-$sql = "SELECT alarm FROM system WHERE id=1";
-$result = $conn->query($sql);
-$row = $result->fetch_assoc();
-$alarm_status = $row['alarm'];
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header('Location: login.php');
+    exit();
+}
 
-$sql = "SELECT * FROM logs ORDER BY timestamp DESC LIMIT 10";
-$result = $conn->query($sql);
+$username = $conn->real_escape_string($_SESSION['user']);
+$resultUser = $conn->query("SELECT fullname FROM users WHERE username = '$username' LIMIT 1");
+$userFullName = $resultUser && $resultUser->num_rows > 0 ? $resultUser->fetch_assoc()['fullname'] : $username;
 
-$logs_dvere = [];
-$logs_okna = [];
-$logs_pohyb = [];
-while ($row = $result->fetch_assoc()) {
-    if (strpos($row['message'], 'dvere') !== false) {
-        $logs_dvere[] = $row;
-    } elseif (strpos($row['message'], 'okno') !== false) {
-        $logs_okna[] = $row;
-    } elseif (strpos($row['message'], 'pohyb') !== false) {
-        $logs_pohyb[] = $row;
+// Spracovanie filtra
+$filterFrom = $_GET['from'] ?? '';
+$filterTo = $_GET['to'] ?? '';
+$whereClause = "WHERE typ='senzor'";
+$room = $_GET['room'] ?? '';
+if ($room) {
+    $roomEscaped = $conn->real_escape_string($room);
+    $whereClause .= " AND message LIKE '%$roomEscaped%'";
+}
+
+if ($filterFrom && $filterTo) {
+    $from = $conn->real_escape_string($filterFrom . " 00:00:00");
+    $to = $conn->real_escape_string($filterTo . " 23:59:59");
+    $whereClause .= " AND timestamp BETWEEN '$from' AND '$to'";
+}
+
+$roomConditions = [];
+if (!empty($_GET['rooms']) && is_array($_GET['rooms'])) {
+    foreach ($_GET['rooms'] as $room) {
+        $roomEscaped = $conn->real_escape_string($room);
+        $roomConditions[] = "message LIKE '%$roomEscaped%'";
+    }
+    if ($roomConditions) {
+        $whereClause .= " AND (" . implode(' OR ', $roomConditions) . ")";
     }
 }
 
-$conn->close();
+// Načítanie logov
+$logs = [];
+$resultLogs = $conn->query("SELECT * FROM logs $whereClause ORDER BY timestamp DESC LIMIT 100");
+while ($row = $resultLogs->fetch_assoc()) {
+    $logs[] = $row;
+}
+
+$scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Detail logov senzora</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style-detail-logs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
 </head>
 <body>
-<div class="logs">
-    <h2>Logy z pohybového senzora</h2>
-    <div class="log-container">
-        <?php foreach ($logs_pohyb as $log) : ?>
-            <div class="log">
-                <strong><?php echo $log['timestamp']; ?></strong> - <?php echo $log['message']; ?>                    
-            </div>
-        <?php endforeach; ?>
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="securitas_images/iq_securitas_logo.svg" alt="Logo">
+        </div>
+        <h1>Detailné logy senzora</h1>
     </div>
+</header>
+<nav>
+        <a href="index.php" class="ponuka">Domov</a>
+
+    <div class="dropdown">
+        <div class="ponuka">Detailné výpisy</div>
+            <div class="dropdown-content">
+                <a href="#">Dvere</a>
+                <a href="#">Okná</a>
+                <a href="senzor.php">Pohybový senzor</a>
+            </div>
+        </div>
+
+        <a href="register.php" class="ponuka">Registrovať</a>
+        <a type="post" name="logout" class="ponuka">Odhlásiť sa</a>
+    </nav>
+<main>
+    <div class="container">
+        <div class="left-panel">
+            <h2><i class="fa fa-user-circle"></i> Vitaj, <?= htmlspecialchars($userFullName); ?>!</h2>
+            <p><i class="fa fa-bell"></i>  Sledujete detailné záznamy pohybového senzora.</p>
+            <form method="get" class="filter-form">
+                <label>Od: <input type="date" name="from" value="<?= htmlspecialchars($filterFrom); ?>"></label>
+                <label>Do: <input type="date" name="to" value="<?= htmlspecialchars($filterTo); ?>"></label>
+                <label>Miestnosť:</label>
+<div class="room-checkboxes">
+    <?php
+    $availableRooms = ['kuchyňa', 'garáž', 'obývačka', 'spálňa', 'detská izba', 'chodba'];
+    foreach ($availableRooms as $roomOption):
+        $checked = in_array($roomOption, $_GET['rooms'] ?? []) ? 'checked' : '';
+    ?>
+        <label>
+            <input type="checkbox" name="rooms[]" value="<?= htmlspecialchars($roomOption) ?>" <?= $checked ?>>
+            <?= ucfirst($roomOption) ?>
+        </label>
+    <?php endforeach; ?>
 </div>
+
+                <button type="submit">Filtrovať</button>
+            </form>
+        </div>
+        <div class="right-panel">
+    <?php if (count($logs) > 0): ?>
+        <div class="log-box" style="<?= count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '' ?>">
+            <h3><i class="fa fa-bell"></i> senzor</h3>
+            <?php foreach ($logs as $log): ?>
+                <div class="log-entry">
+                    <p><strong><?= htmlspecialchars($log['timestamp']); ?>:</strong> <?= htmlspecialchars($log['message']); ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p>Žiadne záznamy pre zadaný rozsah.</p>
+    <?php endif; ?>
+</div>
+
+    </div>
+</main>
 </body>
 </html>
