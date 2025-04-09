@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hostiteľ: 127.0.0.1
--- Čas generovania: Pi 04.Apr 2025, 11:52
+-- Čas generovania: St 09.Apr 2025, 20:46
 -- Verzia serveru: 10.4.32-MariaDB
 -- Verzia PHP: 8.2.12
 
@@ -30,17 +30,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL,
   `typ` enum('senzor','okna','dvere') NOT NULL,
-  `message` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+  `message` text DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `room` enum('kuchyňa','garáž','obývačka','spálňa','detská izba','chodba') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Sťahujem dáta pre tabuľku `logs`
 --
 
-INSERT INTO `logs` (`id`, `typ`, `message`, `timestamp`) VALUES
-(1, 'okna', 'Otvorenie okna', '2025-04-03 07:37:25'),
-(2, 'senzor', 'Senzor pohybu aktivovaný o current_timestamp()', '2025-04-03 07:38:33');
+INSERT INTO `logs` (`id`, `typ`, `message`, `timestamp`, `room`) VALUES
+(1, 'senzor', 'Pohyb v kuchyni', '2025-04-09 16:12:08', 'kuchyňa'),
+(2, 'senzor', 'Pohyb v garáži', '2025-04-09 16:12:24', 'garáž'),
+(3, 'senzor', 'Pohyb v obývačke', '2025-04-07 16:12:25', 'obývačka'),
+(4, 'senzor', 'Pohyb v chodbe', '2025-04-10 16:40:04', 'chodba');
 
 -- --------------------------------------------------------
 
@@ -108,7 +111,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pre tabuľku `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pre tabuľku `system_status`
