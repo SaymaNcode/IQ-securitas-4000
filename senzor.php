@@ -67,6 +67,7 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="style-detail-logs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 <header>
@@ -74,7 +75,7 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
         <div class="logo">
             <img src="securitas_images/iq_securitas_logo.svg" alt="Logo">
         </div>
-        <h1>Detailné logy senzora</h1>
+        <h1 id="senzorheader"></h1>
     </div>
 </header>
 <nav>
