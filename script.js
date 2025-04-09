@@ -1,20 +1,27 @@
-const text = "Prihláste sa";
-let index = 0;
-function type() {
-    document.getElementById("typing-title").textContent = text.slice(0, index++);
-    if (index <= text.length) setTimeout(type, 250);
-}
-document.addEventListener("DOMContentLoaded", type);
+document.addEventListener("DOMContentLoaded", function () {
+    const titleText = "Prihláste sa";
+    const headerText = "IQ Securitas 4000";
 
-{
-const text = "IQ Securitas 4000";
-let index = 0;
-function type() {
-    document.getElementById("header").textContent = text.slice(0, index++);
-    if (index <= text.length) setTimeout(type, 150);
-}
-document.addEventListener("DOMContentLoaded", type);
-}
+    let titleIndex = 0;
+    let headerIndex = 0;
+
+    function typeTitle() {
+        const titleElem = document.getElementById("typing-title");
+        if (!titleElem) return;
+        titleElem.textContent = titleText.slice(0, titleIndex++);
+        if (titleIndex <= titleText.length) setTimeout(typeTitle, 250);
+    }
+
+    function typeHeader() {
+        const headerElem = document.getElementById("header");
+        if (!headerElem) return;
+        headerElem.textContent = headerText.slice(0, headerIndex++);
+        if (headerIndex <= headerText.length) setTimeout(typeHeader, 150);
+    }
+
+    typeTitle();
+    typeHeader();
+});
 
 $(document).ready(function() {
     function updateAlarmStatus() {

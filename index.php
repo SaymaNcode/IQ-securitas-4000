@@ -74,6 +74,7 @@ if ($resultUser && $resultUser->num_rows > 0) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
           integrity="sha512-pap6bEGC8tOac4R7k3QB3iT7/hTQbBRhd9qq0edYfXefmIjo3w+gBt/6M4ecbEjpd3UUlN5C6r72X3Q8a6V+5A==" 
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
     <header>
@@ -82,26 +83,25 @@ if ($resultUser && $resultUser->num_rows > 0) {
             <div class="logo">
                 <img src="securitas_images\iq_securitas_logo.svg" alt="Logo">
             </div>
-            <h1>IQ Securitas 4000</h1>
-            <div class="menu">
-                <!-- Ikona, ktorá spúšťa zobrazenie dropdown menu -->
-                <button id="menu-button" onclick="toggleDropdown()">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <!-- Dropdown menu – počiatočne skryté -->
-                <div id="dropdown-menu" class="dropdown">
-                    <p><i class="fa fa-user"></i> Prihlásený: <?= htmlspecialchars($userFullName); ?></p>
-                    <a href="register.php"><i class="fa fa-user-plus"></i> Registrovať</a>
-                    <form method="post" style="margin:0;">
-                        <button type="submit" name="logout">
-                            <i class="fa fa-sign-out-alt"></i> Odhlásiť sa
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <h1 id="header"></h1>
         </div>
     </header>
-    
+    <nav>
+        <a href="index.php" class="ponuka">Domov</a>
+
+    <div class="dropdown">
+        <div class="ponuka">Detailné výpisy</div>
+            <div class="dropdown-content">
+                <a href="#">Dvere</a>
+                <a href="#">Okná</a>
+                <a href="#">Pohybový senzor</a>
+            </div>
+        </div>
+
+        <a href="register.php" class="ponuka">Registrovať</a>
+        <a type="submit" name="logout" class="ponuka">Odhlásiť sa</a>
+    </nav>
+
     <main>
         <div class="container">
             <div class="left-panel">
@@ -113,7 +113,7 @@ if ($resultUser && $resultUser->num_rows > 0) {
                 </div>
                 <form method="post" class="alarm-form">
                     <button type="submit" name="toggle_alarm" class="toggle-alarm">
-                        <?= $status['alarm_on'] ? '<i class="fa fa-power-off"></i> Vypnúť alarm' : '<i class="fa fa-power-off"></i> Zapnúť alarm'; ?>
+                    <?php echo $status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
                     </button>
                 </form>
                 <button class="info-button"><i class="fa fa-info-circle"></i> Viac info</button>
@@ -137,24 +137,25 @@ if ($resultUser && $resultUser->num_rows > 0) {
     
     <!-- Inline JavaScript pre animáciu dropdown menu a ďalšie funkcie -->
     <script>
-        function toggleDropdown() {
-            console.log("Toggle dropdown");
-            const dropdown = document.getElementById("dropdown-menu");
-            dropdown.classList.toggle("show");
-        }
-        // Kliknutie mimo menu zatvorí dropdown
-        document.addEventListener("click", function(e) {
-            const dropdown = document.getElementById("dropdown-menu");
-            const button = document.getElementById("menu-button");
-            if (!button.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.remove("show");
-            }
-        });
         
         // Dummy funkcia pre zobrazenie histórie logov – uprav podľa potreby
         function showHistory(type) {
             alert("Zobrazenie histórie pre: " + type);
         }
+  // Toggle dropdown on click
+  document.getElementById("dropdown-btn").addEventListener("click", function(e) {
+      e.stopPropagation(); // Zastaví bubblení pre kliknutia vnútri dropdown
+      document.getElementById("dropdown-content").classList.toggle("show");
+  });
+
+  // Kliknutím mimo dropdown sa menu zavrie
+  document.addEventListener("click", function(e) {
+      const dropdownContent = document.getElementById("dropdown-content");
+      if (dropdownContent.classList.contains("show")) {
+          dropdownContent.classList.remove("show");
+      }
+  });
+
     </script>
 </body>
 </html>

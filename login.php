@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prihlásenie</title>
     <link rel="stylesheet" href="log-style.css">
-    <script defer src="script.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
     <div class="login-container">
