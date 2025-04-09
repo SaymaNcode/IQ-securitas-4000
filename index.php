@@ -105,14 +105,14 @@ foreach ($logs as $l) {
     <div class="dropdown">
         <div class="ponuka">Detailné výpisy</div>
             <div class="dropdown-content">
-                <a href="#">Dvere</a>
-                <a href="#">Okná</a>
+                <a href="dvere.php">Dvere</a>
+                <a href="okno.php">Okná</a>
                 <a href="senzor.php">Pohybový senzor</a>
             </div>
         </div>
 
         <a href="register.php" class="ponuka">Registrovať</a>
-        <a type="post" name="logout" class="ponuka">Odhlásiť sa</a>
+        <a href="logout.php" class="ponuka">Odhlásiť sa</a>
     </nav>
 
     <main>

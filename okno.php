@@ -24,7 +24,7 @@ $userFullName = $resultUser && $resultUser->num_rows > 0 ? $resultUser->fetch_as
 // Spracovanie filtra
 $filterFrom = $_GET['from'] ?? '';
 $filterTo = $_GET['to'] ?? '';
-$whereClause = "WHERE typ='senzor'";
+$whereClause = "WHERE typ='okna'";
 $room = $_GET['room'] ?? '';
 if ($room) {
     $roomEscaped = $conn->real_escape_string($room);
@@ -63,9 +63,9 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Detail logov senzora</title>
+    <title>Detail logov z okien</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="style-detail-logs.css">
+    <link rel="stylesheet" href="style-detail-okna.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
 </head>
 <body>
@@ -74,7 +74,7 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
         <div class="logo">
             <img src="securitas_images/iq_securitas_logo.svg" alt="Logo">
         </div>
-        <h1>Detailné logy senzora</h1>
+        <h1>Detailné logy z okien</h1>
     </div>
 </header>
 <nav>
@@ -96,7 +96,7 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
     <div class="container">
         <div class="left-panel">
             <h2><i class="fa fa-user-circle"></i> Vitaj, <?= htmlspecialchars($userFullName); ?>!</h2>
-            <p><i class="fa fa-bell"></i>  Sledujete detailné záznamy pohybového senzora.</p>
+            <p><i class="fa fa-bell"></i>  Sledujete detailné záznamy okien.</p>
             <form method="get" class="filter-form">
                 <label>Od: <input type="date" name="from" value="<?= htmlspecialchars($filterFrom); ?>"></label>
                 <label>Do: <input type="date" name="to" value="<?= htmlspecialchars($filterTo); ?>"></label>

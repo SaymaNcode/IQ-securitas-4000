@@ -1,0 +1,79 @@
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.filter-form label {
+    font-size: 16px;
+    color: #333;
+}
+
+.filter-form input[type="date"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filter-form button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.filter-form button:hover {
+    background-color: #45a049;
+}
+
+.right-panel {
+    padding-right: 5px;
+}
+
+.log-box {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.log-entry {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.container {
+    display: flex;
+    justify-content: center; 
+    gap: 30px; 
+    flex-wrap: wrap; 
+}
+
+.left-panel,
+.right-panel {
+    max-width: 500px;
+    flex: 1;
+}
+.room-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.room-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
