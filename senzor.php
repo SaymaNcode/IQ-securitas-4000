@@ -134,5 +134,12 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
 
     </div>
 </main>
+<footer class="custom-footer">
+        <div class="footer-content">
+            <p>Ročníkový projekt predmetu IoT na Strednej odbornej škole v Handlovej</p>
+            <p>Domáci bezpečnostný systém - IQ Securitas 4000</p>
+            <p>Vytvoril Adam Humaj a Simon Lauko</p>
+         </div>
+    </footer>
 </body>
 </html>

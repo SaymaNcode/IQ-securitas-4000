@@ -207,3 +207,22 @@ main {
     margin: 0 0 10px;
     font-weight: normal;
 }
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.custom-footer {
+    background-color: #2E6F40;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+
+  }
+  
+  .footer-content p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
