@@ -25,6 +25,7 @@ $userFullName = $resultUser && $resultUser->num_rows > 0 ? $resultUser->fetch_as
 $filterFrom = $_GET['from'] ?? '';
 $filterTo = $_GET['to'] ?? '';
 $whereClause = "WHERE typ='senzor'";
+
 $room = $_GET['room'] ?? '';
 if ($room) {
     $roomEscaped = $conn->real_escape_string($room);
@@ -102,14 +103,15 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
                 <label>Od: <input type="date" name="from" value="<?= htmlspecialchars($filterFrom); ?>"></label>
                 <label>Do: <input type="date" name="to" value="<?= htmlspecialchars($filterTo); ?>"></label>
                 <label>Miestnosť:</label>
-<div class="room-checkboxes">
+                <div class="room-checkboxes">
     <?php
     $availableRooms = ['kuchyňa', 'garáž', 'obývačka', 'spálňa', 'detská izba', 'chodba'];
     foreach ($availableRooms as $roomOption):
         $checked = in_array($roomOption, $_GET['rooms'] ?? []) ? 'checked' : '';
     ?>
-        <label>
+        <label class="container-room-checkboxes">
             <input type="checkbox" name="rooms[]" value="<?= htmlspecialchars($roomOption) ?>" <?= $checked ?>>
+            <span class="checkmark"></span>
             <?= ucfirst($roomOption) ?>
         </label>
     <?php endforeach; ?>
@@ -142,7 +144,7 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
             <p>Ročníkový projekt predmetu IoT na Strednej odbornej škole v Handlovej</p>
             <p>Domáci bezpečnostný systém - IQ Securitas 4000</p>
             <p>Vytvoril Adam Humaj a Simon Lauko</p>
-         </div>
+        </div>
     </footer>
 </body>
 </html>

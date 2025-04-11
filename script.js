@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const titleText = "Prihláste sa";
-    const headerText = "IQ Securitas 4000 ";
+    const headerText = "IQ Securitas 4000";
     const dvereNadpis = "Detailné logy z dverí";
     const oknaNadpis = "Detailné logy z okien";
     const senzorNadpis = "Detailné logy senzora";
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     typeSenzor();
     typeInfo();
 }); 
+
 
 // jQuery ready blok
 $(document).ready(function() {
