@@ -1,59 +1,76 @@
 document.addEventListener("DOMContentLoaded", function () {
     const titleText = "Prihláste sa";
-    const headerText = "IQ Securitas 4000";
+    const headerText = "IQ Securitas 4000 ";
     const dvereNadpis = "Detailné logy z dverí";
     const oknaNadpis = "Detailné logy z okien";
     const senzorNadpis = "Detailné logy senzora";
-
+    const infoNadpis = "Informácie o systéme";
+    
     let titleIndex = 0;
     let headerIndex = 0;
     let dvereIndex = 0;
     let oknoIndex = 0;
     let senzorIndex = 0;
-
+    let infoIndex = 0;
+    
     function typeTitle() {
         const titleElem = document.getElementById("typing-title");
         if (!titleElem) return;
-        titleElem.textContent = titleText.slice(0, titleIndex++);
-        if (titleIndex < titleText.length) setTimeout(typeTitle, 250);
+        titleElem.textContent = titleText.slice(0, titleIndex);
+        titleIndex++;
+        if (titleIndex <= titleText.length) setTimeout(typeTitle, 150);
     }
-
+    
     function typeHeader() {
         const headerElem = document.getElementById("header");
         if (!headerElem) return;
-        headerElem.textContent = headerText.slice(0, headerIndex++);
-        if (headerIndex < headerText.length) setTimeout(typeHeader, 150);
+        headerElem.textContent = headerText.slice(0, headerIndex);
+        headerIndex++;
+        if (headerIndex <= headerText.length) setTimeout(typeHeader, 150);
     }
-
+    
     function typeDvere() {
         const titleElem = document.getElementById("dvereheader");
         if (!titleElem) return;
-        titleElem.textContent = dvereNadpis.slice(0, dvereIndex++);
-        if (dvereIndex < dvereNadpis.length) setTimeout(typeDvere, 250);
+        titleElem.textContent = dvereNadpis.slice(0, dvereIndex);
+        dvereIndex++;
+        if (dvereIndex <= dvereNadpis.length) setTimeout(typeDvere, 150);
     }
-
+    
     function typeOkno() {
         const titleElem = document.getElementById("oknoheader");
         if (!titleElem) return;
-        titleElem.textContent = oknaNadpis.slice(0, oknoIndex++);
-        if (oknoIndex < oknaNadpis.length) setTimeout(typeOkno, 250);
+        titleElem.textContent = oknaNadpis.slice(0, oknoIndex);
+        oknoIndex++;
+        if (oknoIndex <= oknaNadpis.length) setTimeout(typeOkno, 150);
     }
-
+    
     function typeSenzor() {
         const titleElem = document.getElementById("senzorheader");
         if (!titleElem) return;
-        titleElem.textContent = senzorNadpis.slice(0, senzorIndex++);
-        if (senzorIndex < senzorNadpis.length) setTimeout(typeSenzor, 250);
+        titleElem.textContent = senzorNadpis.slice(0, senzorIndex);
+        senzorIndex++;
+        if (senzorIndex <= senzorNadpis.length) setTimeout(typeSenzor, 150);
+    }
+    
+    function typeInfo() {
+        const titleElem = document.getElementById("infoheader");
+        if (!titleElem) return;
+        titleElem.textContent = infoNadpis.slice(0, infoIndex);
+        infoIndex++;
+        if (infoIndex <= infoNadpis.length) setTimeout(typeInfo, 150);
     }
 
+    // Spustenie animácií
     typeTitle();
     typeHeader();
     typeDvere();
     typeOkno();
     typeSenzor();
-});
+    typeInfo();
+}); 
 
-
+// jQuery ready blok
 $(document).ready(function() {
     function updateAlarmStatus() {
         $.get("alarm_status.php", function(data) {
@@ -92,3 +109,10 @@ function showHistory(type) {
     alert("Zobrazenie histórie: " + type);
 }
 
+function viacinfo() {
+    window.location.href = 'viac-info.php';
+}
+
+function spatdom() {
+    window.location.href = 'index.php';
+}

@@ -20,6 +20,7 @@ $successMessage = "";
 $errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fullname = trim($_POST['fullname']);
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $passwordConfirm = $_POST['password_confirm'];
@@ -40,16 +41,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Hashovanie hesla
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // Uloženie do databázy
+            // Uloženie používateľa do databázy
             $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
             $stmt->bind_param("ss", $username, $hashedPassword);
 
             if ($stmt->execute()) {
+                // Uloženie celého mena do tabuľky logs
+                $logStmt = $conn->prepare("INSERT INTO users (fullname) VALUES (?)");
+                $logStmt->bind_param("s", $fullname);
+                $logStmt->execute();
+                $logStmt->close();
+
                 $successMessage = "Registrácia úspešná! Môžete sa prihlásiť.";
             } else {
                 $errorMessage = "Chyba pri registrácii!";
             }
         }
+        $stmt->close();
     }
 }
 ?>
@@ -76,12 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <form action="register.php" method="POST">
+        <input type="text" name="fullname" placeholder="Celé meno" required>
         <input type="text" name="username" placeholder="Používateľské meno" required>
         <input type="password" name="password" placeholder="Heslo" required>
         <input type="password" name="password_confirm" placeholder="Potvrďte heslo" required>
         <button type="submit" class="register-button">Registrovať sa</button>
     </form>
-    <p>Hladáte hlavnú stránku? <a href="index.php">Kliknite sem</a></p>
+    <p>Hľadáte hlavnú stránku? <a href="index.php">Kliknite sem</a></p>
 </div>
 
 </body>
