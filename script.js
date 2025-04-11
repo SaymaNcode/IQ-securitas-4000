@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const titleText = "Prihláste sa";
-    const headerText = "IQ Securitas 4000";
-    const dvereNadpis = "Detailné logy z dverí";
-    const oknaNadpis = "Detailné logy z okien";
-    const senzorNadpis = "Detailné logy senzora";
+    const titleText = "Prihláste sa ";
+    const headerText = "IQ Securitas 4000 ";
+    const dvereNadpis = "Detailné logy z dverí ";
+    const oknaNadpis = "Detailné logy z okien ";
+    const senzorNadpis = "Detailné logy senzora ";
 
     let titleIndex = 0;
     let headerIndex = 0;

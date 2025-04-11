@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <span class="circle" aria-hidden="true">
                         <span class="icon arrow"></span>
                     </span>
-                    <span class="button-text">Prihlásiť sa</span>
+                    <span class="button-text">Prihlásiť sa </span>
                 </button>
             </div>
         </form>
