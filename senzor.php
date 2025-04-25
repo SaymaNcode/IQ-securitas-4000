@@ -122,8 +122,8 @@ $scrollStyle = count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '';
         </div>
         <div class="right-panel">
     <?php if (count($logs) > 0): ?>
-        <div class="log-box" style="<?= count($logs) > 10 ? 'max-height: 400px; overflow-y: auto;' : '' ?>">
-            <h3><i class="fa fa-bell"></i> Senzor</h3>
+        <div class="log-box" style="<?= count($logs) > 5 ? 'max-height: 400px; overflow-y: auto;' : '' ?>">
+            <h3><i class="fa fa-bell"></i> senzor</h3>
             <?php foreach ($logs as $log): ?>
                 <div class="log-entry">
                     <p><strong><?= htmlspecialchars($log['timestamp']); ?>:</strong> <?= htmlspecialchars($log['message']); ?></p>

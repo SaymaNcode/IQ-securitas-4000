@@ -86,8 +86,9 @@ foreach ($logs as $l) {
 <head>
     <meta charset="UTF-8">
     <title>Domáci bezpečnostný systém</title>
-    <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="viacinfo-style.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
     <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
@@ -96,7 +97,7 @@ foreach ($logs as $l) {
             <div class="logo">
                 <img src="securitas_images\iq_securitas_logo.svg" alt="Logo">
             </div>
-            <h1 id="header"></h1>
+            <h1 id="infoheader"></h1>
         </div>
     </header>
     <nav>
@@ -117,33 +118,39 @@ foreach ($logs as $l) {
 
     <main>
         <div class="container">
-            <div class="left-panel">
-                <h2><i class="fa fa-user-circle"></i> Vitaj, <?= htmlspecialchars($userFullName); ?>!</h2>
-                <div class="status-info">
-                    <p><i class="fa fa-bell"></i> <strong>Alarm:</strong> <?= $status['alarm_on'] ? 'Zapnutý' : 'Vypnutý'; ?></p>
-                    <p><i class="fa fa-info-circle"></i> <strong>Status:</strong> <?= htmlspecialchars($status['status']); ?></p>
-                    <p><i class="fa fa-clock"></i> <strong>Uptime:</strong> <?= htmlspecialchars($status['uptime']); ?></p>
-                </div>
+            <div class="panel">
+    
+                    <div class="status-wrapper">
+                        <div class="status">
+                            <h3><i class="fa fa-info-circle"></i> Všeobecné informácie</h3>
+                            <p><strong>Alarm:</strong> <?= $status['alarm_on'] ? 'Zapnutý' : 'Vypnutý'; ?></p>
+                            <p><strong>Status:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                            <p><strong>Uptime:</strong> <?= htmlspecialchars($status['uptime']); ?></p>
+                        </div>
+
+                         <div class="status">
+                            <h3><i class="fa fa-info-circle"></i> Systémové informácie</h3>
+                            <p> <strong>Typ zariadenia:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                            <p> <strong>Počet senzorov:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                            <p> <strong>Verzia:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                        </div>
+                        <div class="status">
+                            <h3><i class="fa fa-info-circle"></i> Neviem uprimne</h3>
+                            <p>Simon vymysli sem nieco diky ❤️</p>
+                            <p><?= htmlspecialchars($status['status']); ?></p>
+                            <p><?= htmlspecialchars($status['status']); ?></p>
+                        </div>
+                    </div>
+
                 <form method="post" class="alarm-form">
-                    <button type="submit" name="toggle_alarm" class="toggle-alarm">
-                    <?php echo $status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
+                     <button type="submit" name="toggle_alarm" class="toggle-alarm">
+                        <?= $status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
                     </button>
                 </form>
-                <button class="info-button" onclick="viacinfo()"><i class="fa fa-info-circle"></i> Viac info</button>
-            </div>
-            <div class="right-panel">
-                <div class="log-box" onclick="window.location.href='senzor.php'">
-                    <h3 style="font-weight: bold;"><i class="fa fa-bell"></i> Posledná detekcia zo senzora</h3>
-                    <p><?= isset($senzorLog['message'], $senzorLog['timestamp']) ? "{$senzorLog['message']} o {$senzorLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
-                </div>
-                <div class="log-box" onclick="showHistory('okna')">
-                    <h3 style="font-weight: bold;"><i class="fa fa-window-maximize"></i> Posledná detekcia z okien</h3>
-                    <p><?= isset($oknaLog['message'], $oknaLog['timestamp']) ? "{$oknaLog['message']} o {$oknaLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
-                </div>
-                <div class="log-box" onclick="showHistory('dvere')">
-                    <h3 style="font-weight: bold;"><i class="fa fa-door-closed"></i> Posledná detekcia z dverí</h3>
-                    <p><?= isset($dvereLog['message'], $dvereLog['timestamp']) ? "{$dvereLog['message']} o {$dvereLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
-                </div>
+
+                <button class="info-button" onclick="spatdom()" style="width: 250px;">
+                    <i class="fa fa-info-circle"></i> Spať na hlavnú stránku
+                </button>
             </div>
         </div>
     </main>
@@ -152,7 +159,7 @@ foreach ($logs as $l) {
             <p>Ročníkový projekt predmetu IoT na Strednej odbornej škole v Handlovej</p>
             <p>Domáci bezpečnostný systém - IQ Securitas 4000</p>
             <p>Vytvoril Adam Humaj a Simon Lauko</p>
-        </div>
+         </div>
     </footer>
 </body>
 </html>

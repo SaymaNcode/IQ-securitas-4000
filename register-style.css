@@ -13,7 +13,22 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-}
+    background: linear-gradient(183deg,#68ba7f,#2e6f40,#1b1b1b);
+    background-size: 180% 180%;
+    animation: gradient-animation 12s ease infinite;
+  }
+  
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
 .register-container {
     background: #ffffff;

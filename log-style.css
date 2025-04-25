@@ -14,9 +14,9 @@
 	 justify-content: center;
 	 margin: 0;
 	 min-height: 100vh;
-     background: linear-gradient(37deg,#7e90f7,#e39e28,#5fbc6d,#d184f3);
-     background-size: 240% 240%;
-     animation: gradient-animation 16s ease infinite;
+	 background: linear-gradient(183deg,#68ba7f,#2e6f40,#1b1b1b);
+	 background-size: 180% 180%;
+	 animation: gradient-animation 12s ease infinite;
    }
    
    @keyframes gradient-animation {
