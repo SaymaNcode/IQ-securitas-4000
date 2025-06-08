@@ -26,6 +26,7 @@ if (isset($_POST['toggle_alarm'])) {
     $resultToggle = $conn->query("SELECT * FROM system_status ORDER BY timestamp DESC LIMIT 1");
     $currentStatus = $resultToggle->fetch_assoc();
     $newState = ($currentStatus && $currentStatus['alarm_on']) ? 0 : 1;
+    
     // Predpokladáme, že tabuľka system_status má primárny kľúč id
     if (isset($currentStatus['id'])) {
         $stmt = $conn->prepare("UPDATE system_status SET alarm_on = ? WHERE id = ?");
@@ -33,12 +34,26 @@ if (isset($_POST['toggle_alarm'])) {
         $stmt->execute();
         $stmt->close();
     }
+
+    // Odošle príkaz do Arduina cez Python skript
+    $command = $newState ? "ALARM_ON" : "ALARM_OFF";
+    $pythonScript = "C:\\xampp\\htdocs\\arduino\\alarm_control.py"; // UPRAVTE NA VAŠU CESTU
+    
+    // Spustenie Python skriptu s príkazom
+    $output = [];
+    $return_var = 0;
+    exec('python "' . $pythonScript . '" "' . $command . '" 2>&1', $output, $return_var);
+    
+    // Debug výpis - zobrazí sa na serveri v error_log
+    error_log("Alarm command: $command");
+    error_log("Python script: $pythonScript");
+    error_log("Return status: $return_var");
+    error_log("Output: " . implode("\n", $output));
+    
+    // Presmerujeme používateľa späť na hlavnú stránku
+    header("Location: index.php");
+    exit();
 }
-
-// Načítanie aktuálneho stavu systému
-$result = $conn->query("SELECT * FROM system_status ORDER BY timestamp DESC LIMIT 1");
-$status = $result->fetch_assoc() ?: ['alarm_on' => 0, 'status' => 'Neznámy', 'uptime' => '0s'];
-
 // Načítanie posledných logov pre jednotlivé senzory
 $logs = [
     'senzor' => null,
