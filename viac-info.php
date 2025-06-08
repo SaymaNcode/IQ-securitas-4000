@@ -130,9 +130,9 @@ foreach ($logs as $l) {
 
                          <div class="status">
                             <h3><i class="fa fa-info-circle"></i> Systémové informácie</h3>
-                            <p> <strong>Typ zariadenia:</strong> <?= htmlspecialchars($status['status']); ?></p>
-                            <p> <strong>Počet senzorov:</strong> <?= htmlspecialchars($status['status']); ?></p>
-                            <p> <strong>Verzia:</strong> <?= htmlspecialchars($status['status']); ?></p>
+                            <p> <strong>Typ zariadenia:</strong> Arduino UNO</p>
+                            <p> <strong>Počet senzorov:</strong> 3</p>
+                            <p> <strong>Verzia systému:</strong> v2.4</p>
                         </div>
                         <div class="status">
                             <h3><i class="fa fa-info-circle"></i> Neviem uprimne</h3>

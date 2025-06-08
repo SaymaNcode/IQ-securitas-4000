@@ -4,7 +4,7 @@ import time
 import os
 
 # ZMEŇ NA SPRÁVNY COM PORT PRE ARDUINO
-SERIAL_PORT = 'COM5'  
+SERIAL_PORT = 'COM6'  
 
 def send_command(command):
     try:
