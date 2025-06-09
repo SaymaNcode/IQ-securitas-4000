@@ -1,36 +1,37 @@
 <?php
 session_start();
-$conn = new mysqli('localhost', 'root', '', 'bezpecnost');
-$zleheslo = "Nesprávne prihlasovacie údaje!";
 
-if ($conn->connect_error) {
-    die("Pripojenie zlyhalo: " . $conn->connect_error);
-}
+// Spracovanie prihlásenia
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $_POST['password']; 
+    // Pripojenie k DB
+    $conn = new mysqli('localhost', 'root', '', 'bezpecnost');
+    if ($conn->connect_error) {
+        die("Chyba pripojenia: " . $conn->connect_error);
+    }
 
-    // Použitie prepared statement na bezpečnejšie dotazy
-    $stmt = $conn->prepare("SELECT fullname, password FROM users WHERE username = ?");
+    // Overenie údajov
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->store_result();
 
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-
-        // Porovnanie zadaného hesla s hashovaným heslom v databáze
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user'] = $user['fullname'];
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($hashedPassword);
+        $stmt->fetch();
+        if (password_verify($password, $hashedPassword)) {
+            $_SESSION['user'] = $username;
+            $_SESSION['uptime'] = 0; // inicializuj uptime
             header("Location: index.php");
             exit();
-        } else {
-            echo "<h2 class='errorheslo'>" . $zleheslo . "</h2>";
         }
-    } else {
-        echo "<h2 class='errorheslo'>" . $zleheslo . "</h2>";
     }
+
+    // Neúspešné prihlásenie
+    header("Location: login.php?error=1");
+    exit();
 }
 ?>
 
@@ -38,26 +39,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prihlásenie</title>
     <link rel="stylesheet" href="log-style.css">
-    <script type="text/javascript" src="script.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="login-container">
-        <h2 id="typing-title"></h2>
-        <form action="login.php" method="POST">
+        <h2 id="typing-title">Prihláste sa</h2>
+        <form action="login.php" method="post">
             <input type="text" name="username" placeholder="Používateľské meno" required>
             <input type="password" name="password" placeholder="Heslo" required>
-            <div id="container">
-                <button class="learn-more">
-                    <span class="circle" aria-hidden="true">
-                        <span class="icon arrow"></span>
-                    </span>
-                    <span class="button-text">Prihlásiť sa </span>
-                </button>
-            </div>
+            <button class="learn-more" type="submit">
+                <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">Prihlásiť sa</span>
+            </button>
         </form>
+
+        <?php if (isset($_GET['error']) && $_GET['error'] == 1): ?>
+            <p class="error-message">Nesprávne prihlasovacie údaje!</p>
+        <?php endif; ?>
     </div>
 </body>
 </html>

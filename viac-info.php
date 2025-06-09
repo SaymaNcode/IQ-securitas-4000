@@ -20,25 +20,6 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
-// Prepínanie alarmu – ak bolo stlačené tlačidlo
-if (isset($_POST['toggle_alarm'])) {
-    // Načítame aktuálny stav alarmu
-    $resultToggle = $conn->query("SELECT * FROM system_status ORDER BY timestamp DESC LIMIT 1");
-    $currentStatus = $resultToggle->fetch_assoc();
-    $newState = ($currentStatus && $currentStatus['alarm_on']) ? 0 : 1;
-    // Predpokladáme, že tabuľka system_status má primárny kľúč id
-    if (isset($currentStatus['id'])) {
-        $stmt = $conn->prepare("UPDATE system_status SET alarm_on = ? WHERE id = ?");
-        $stmt->bind_param("ii", $newState, $currentStatus['id']);
-        $stmt->execute();
-        $stmt->close();
-    }
-}
-
-// Načítanie aktuálneho stavu systému
-$result = $conn->query("SELECT * FROM system_status ORDER BY timestamp DESC LIMIT 1");
-$status = $result->fetch_assoc() ?: ['alarm_on' => 0, 'status' => 'Neznámy', 'uptime' => '0s'];
-
 // Načítanie posledných logov pre jednotlivé senzory
 $logs = [
     'senzor' => null,
@@ -123,9 +104,9 @@ foreach ($logs as $l) {
                     <div class="status-wrapper">
                         <div class="status">
                             <h3><i class="fa fa-info-circle"></i> Všeobecné informácie</h3>
-                            <p><strong>Alarm:</strong> <?= $status['alarm_on'] ? 'Zapnutý' : 'Vypnutý'; ?></p>
-                            <p><strong>Status:</strong> <?= htmlspecialchars($status['status']); ?></p>
-                            <p><strong>Uptime:</strong> <?= htmlspecialchars($status['uptime']); ?></p>
+                            <p><i class="fa fa-bell"></i> <strong>Alarm:</strong> Aktívny</p>
+                            <p><i class="fa fa-info-circle"></i> <strong>Status:</strong> V poriadku</p>
+                            <p><i class="fa fa-clock"></i> <strong>Uptime:</strong> <span id="uptime-display"><?= floor($initialUptime / 60) ?> minút</span></p>
                         </div>
 
                          <div class="status">
