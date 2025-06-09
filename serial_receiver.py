@@ -35,7 +35,7 @@ try:
         if not line:
             continue
 
-        print("Prijaté:", line)
+        print("Prijaté:", line)  # Debug
 
         # Spracovanie alarmu
         if "ALARM!" in line:
@@ -47,33 +47,44 @@ try:
 
         # Spracovanie dát zo senzorov
         elif "Door1:" in line and "Door2:" in line and "PIR:" in line:
-            parts = line.split('|')
-            door1 = int(parts[0].split(':')[1])
-            door2 = int(parts[1].split(':')[1])
-            pir = int(parts[2].split(':')[1])
+            try:
+                parts = line.split('|')
+                if len(parts) != 3:
+                    print("⚠️  Neplatný formát riadku:", parts)
+                    continue
 
-            if door1 == 1:
-                cursor.execute("""
-                    INSERT INTO logs (typ, message, room)
-                    VALUES ('dvere', 'Dvere boli otvorené', 'poschodie')
-                """)
+                door1 = int(parts[0].split(':')[1])
+                door2 = int(parts[1].split(':')[1])
+                pir = int(parts[2].split(':')[1])
 
-            if door2 == 1:
-                cursor.execute("""
-                    INSERT INTO logs (typ, message, room)
-                    VALUES ('okna', 'Okno bolo otvorené', 'poschodie')
-                """)
+                print(f"door1={door1}, door2={door2}, pir={pir}")  # Debug
 
-            if pir == 1:
-                cursor.execute("""
-                    INSERT INTO logs (typ, message, room)
-                    VALUES ('senzor', 'Pohyb detekovaný', 'prízemie')
-                """)
+                if door1 == 1:
+                    cursor.execute("""
+                        INSERT INTO logs (typ, message, room)
+                        VALUES ('dvere', 'Dvere boli otvorené', 'poschodie')
+                    """)
 
-            db.commit()
+                if door2 == 1:
+                    cursor.execute("""
+                        INSERT INTO logs (typ, message, room)
+                        VALUES ('okna', 'Okno bolo otvorené', 'poschodie')
+                    """)
+
+                if pir == 1:
+                    cursor.execute("""
+                        INSERT INTO logs (typ, message, room)
+                        VALUES ('senzor', 'Pohyb detekovaný', 'prízemie')
+                    """)
+
+                db.commit()
+
+            except (IndexError, ValueError) as e:
+                print("❌ Chyba pri parsovaní dát zo senzorov:", e)
+                continue
 
         # Zápis systému a uptime
-        uptime = int(time.time())  # unix timestamp
+        uptime = int(time.time())
         cursor.execute("""
             INSERT INTO system_status (alarm_on, status, uptime)
             VALUES (1, 'Aktívny', %s)

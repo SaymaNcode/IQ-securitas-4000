@@ -135,18 +135,12 @@ foreach ($logs as $l) {
                             <p> <strong>Verzia systému:</strong> v2.4</p>
                         </div>
                         <div class="status">
-                            <h3><i class="fa fa-info-circle"></i> Neviem uprimne</h3>
-                            <p>Simon vymysli sem nieco diky ❤️</p>
-                            <p><?= htmlspecialchars($status['status']); ?></p>
-                            <p><?= htmlspecialchars($status['status']); ?></p>
+                            <h3><i class="fa fa-info-circle"></i> Kontaktné údaje</h3>
+                            <p>Administrátor systému:</p>
+                            <p>Adam Humaj - humajadam@protonmail.com</p>
+                            <p>Simon Lauko - simonlauko02@gmail.com</p>
                         </div>
                     </div>
-
-                <form method="post" class="alarm-form">
-                     <button type="submit" name="toggle_alarm" class="toggle-alarm">
-                        <?= $status ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
-                    </button>
-                </form>
 
                 <button class="info-button" onclick="spatdom()" style="width: 250px;">
                     <i class="fa fa-info-circle"></i> Spať na hlavnú stránku

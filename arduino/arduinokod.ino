@@ -2,7 +2,7 @@ const int sensor1Pin = 2;  // Dvere 1
 const int sensor2Pin = 3;  // Dvere 2
 const int pirPin     = 4;  // PIR senzor
 const int buzzerPin  = 5;  // Bzučiak
-bool alarmEnabled = true;
+bool alarmEnabled = true; // Stav alarmu
 
 void setup() {
   Serial.begin(9600);
@@ -13,17 +13,6 @@ void setup() {
 }
 
 void loop() {
-  // Kontrola stavu alarmu zo sériovej komunikácie
-  if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\n');
-    command.trim();
-    if (command == "ALARM_OFF") {
-      alarmEnabled = false;
-      digitalWrite(buzzerPin, LOW);
-    } else if (command == "ALARM_ON") {
-      alarmEnabled = true;
-    }
-  }
 
   bool door1Open = digitalRead(sensor1Pin) == HIGH;
   bool door2Open = digitalRead(sensor2Pin) == HIGH;

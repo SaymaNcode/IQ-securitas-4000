@@ -136,16 +136,6 @@ $dvereLog = $logs['dvere'];
                 }
                 ?></p>
             </div>
-            <form method="post" class="alarm-form">
-                <button type="submit" name="toggle_alarm" class="toggle-alarm">
-                    <?= $status['alarm_on'] ? 'Vypnúť alarm' : 'Zapnúť alarm'; ?>
-                </button>
-            </form>
-            <form method="post" class="alarm-form">
-                <button type="submit" name="buzzer_toggle">
-                    <?= $buzzer_enabled ? '🔇 Vypnúť bzučiak' : '🔊 Zapnúť bzučiak'; ?>
-                </button>
-            </form>
             <button class="info-button" onclick="viacinfo()"><i class="fa fa-info-circle"></i> Viac info</button>
         </div>
         <div class="right-panel">
@@ -153,11 +143,11 @@ $dvereLog = $logs['dvere'];
                 <h3 style="font-weight: bold;"><i class="fa fa-bell"></i> Posledná detekcia zo senzora</h3>
                 <p><?= isset($senzorLog['message'], $senzorLog['timestamp']) ? "{$senzorLog['message']} o {$senzorLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
             </div>
-            <div class="log-box" onclick="showHistory('okna')">
+            <div class="log-box" onclick="window.location.href='okno.php'">
                 <h3 style="font-weight: bold;"><i class="fa fa-window-maximize"></i> Posledná detekcia z okien</h3>
                 <p><?= isset($oknaLog['message'], $oknaLog['timestamp']) ? "{$oknaLog['message']} o {$oknaLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
             </div>
-            <div class="log-box" onclick="showHistory('dvere')">
+            <div class="log-box" onclick="window.location.href='dvere.php'">
                 <h3 style="font-weight: bold;"><i class="fa fa-door-closed"></i> Posledná detekcia z dverí</h3>
                 <p><?= isset($dvereLog['message'], $dvereLog['timestamp']) ? "{$dvereLog['message']} o {$dvereLog['timestamp']}" : 'Žiadne záznamy'; ?></p>
             </div>
@@ -201,7 +191,7 @@ function updateStatus() {
         });
 }
 
-// Spúšťaj každých 5 sekúnd
+// Spúšťa každých 5 sekúnd
 setInterval(updateStatus, 5000);
 </script>
 </body>

@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $conn->real_escape_string($_POST['username']);
-    $password = $_POST['password']; // Už nehashujeme, heslo je zadané v plaintext (pre porovnanie)
+    $password = $_POST['password']; 
 
     // Použitie prepared statement na bezpečnejšie dotazy
     $stmt = $conn->prepare("SELECT fullname, password FROM users WHERE username = ?");
